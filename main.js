@@ -27,7 +27,7 @@ const gameRules = [
 ];
 
 function renderMessage(playerGuess, cpuGuess, resultMessage) {
-  gameMessage.innerText = `${playerGuess} & ${cpuGuess} = ${resultMessage}`
+  gameMessage.innerText = `${playerGuess} & ${cpuGuess} = ${resultMessage}`;
 }
 
 function renderPlayerScore() {
@@ -68,7 +68,7 @@ function playedGame(playerGuess, cpuGuess) {
 
 function ButtonAction() {
   let cpuGuess = Math.floor(Math.random() * 3);
-  console.log(cpuRules[cpuGuess].toLowerCase());
+  // console.log(cpuRules[cpuGuess].toLowerCase());
   playedGame(this.innerText.toLowerCase(), cpuRules[cpuGuess].toLowerCase());
 } 
 
