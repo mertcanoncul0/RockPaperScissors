@@ -1,0 +1,106 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  overflow-x: hidden;
+}
+
+.rock {
+  @apply absolute -bottom-16 left-9 lg:-bottom-16 lg:left-14 cursor-pointer;
+}
+
+.result-rock {
+  @apply w-72 h-72;
+}
+
+.paper {
+  @apply absolute -top-12 -left-12 lg:-top-20 lg:-left-20 cursor-pointer;
+}
+
+.result-paper {
+  @apply w-72 h-72;
+}
+
+.scissors {
+  @apply absolute -top-12 -right-16  lg:-top-20 lg:-right-20 cursor-pointer;
+}
+
+.result-scissors {
+  @apply w-72 h-72;
+}
+
+.circle-image {
+  position: relative;
+}
+
+.circle-image::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 250px;
+  height: 250px;
+  z-index: -1;
+  background-color: rgba(255, 255, 255, 0.05);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: opacity 0.3s;
+  opacity: 0;
+}
+
+@media (min-width: 960px) {
+  .circle-image::before {
+    width: 332px;
+    height: 332px;
+  }
+}
+
+.circle-image:hover::before {
+  opacity: 1;
+}
+
+.winner:is(.result-rock, .result-paper, .result-scissors)
+  .circle-image::before {
+  width: 424px;
+  height: 416px;
+  opacity: 1;
+}
+
+.winner:is(.result-rock, .result-paper, .result-scissors)
+  > div.circle-image::before {
+  width: 564px;
+  height: 554px;
+  opacity: 1;
+}
+
+.winner:is(.result-rock, .result-paper, .result-scissors)
+  > div
+  > div.circle-image::before {
+  width: 730px;
+  height: 718px;
+  opacity: 1;
+}
+
+.looser:is(.result-rock, .result-paper, .result-scissors)
+  .circle-image::before {
+  width: 424px;
+  height: 416px;
+  opacity: 1;
+}
+
+.looser:is(.result-rock, .result-paper, .result-scissors)
+  > div.circle-image::before {
+  width: 564px;
+  height: 554px;
+  opacity: 1;
+}
+
+.looser:is(.result-rock, .result-paper, .result-scissors)
+  > div
+  > div.circle-image::before {
+  width: 730px;
+  height: 718px;
+  opacity: 1;
+}
