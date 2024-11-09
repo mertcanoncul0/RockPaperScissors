@@ -17,13 +17,13 @@ export default function ResultButtonCircle({
     >
       <div className='relative w-full h-full circle-image'>
         <div className='relative w-full h-full circle-image'>
-          <div className='relative w-full h-full circle-image'>
+          <div className='relative w-full h-full circle-image flex justify-center'>
             <Image
               src={src}
               alt={alt}
               width={198}
               height={203}
-              className='w-72 h-72'
+              className='w-32 h-32 lg:w-72 lg:h-72'
             />
           </div>
         </div>

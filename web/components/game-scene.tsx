@@ -51,56 +51,70 @@ export default function GameScene() {
     setResult({ message: '', score: score })
   }
 
-  console.log('result', result)
-
   return (
-    <div
-      className={twMerge(
-        'relative flex items-center justify-between mt-20',
-        cpuGuess ? 'w-[960px]' : 'w-[700px]'
-      )}
-    >
-      <div className='flex flex-col items-center justify-between h-[400px]'>
-        <h3 className='text-white text-2xl font-bold tracking-widest'>
-          YOUR PICKED
-        </h3>
+    <>
+      <div
+        className={twMerge(
+          'relative flex items-center justify-between mt-24 gap-8 lg:mt-20 w-full px-4 lg:px-8',
+          cpuGuess ? 'lg:w-[960px]' : 'lg:w-[700px]'
+        )}
+      >
+        <div className='flex flex-col items-center justify-between h-[200px] lg:h-[400px]'>
+          <h3 className='text-white text-lg lg:text-2xl font-bold tracking-widest'>
+            YOUR PICKED
+          </h3>
 
-        <ResultButtonCircle
-          winner={result.message === 'You Win'}
-          {...(gameActions.find((x) => x.name === playerGuess) as GameAction)}
-        />
+          <ResultButtonCircle
+            winner={result.message === 'You Win'}
+            {...(gameActions.find((x) => x.name === playerGuess) as GameAction)}
+          />
+        </div>
+
+        {cpuGuess && (
+          <div className='flex-col justify-center items-center mt-16 gap-4 text-center hidden sm:flex'>
+            <h2 className='text-white text-5xl lg:text-6xl font-bold tracking-widest uppercase'>
+              {result.message}
+            </h2>
+            <button
+              onClick={playAgain}
+              className='border border-white rounded-lg text-black px-9 py-2 text-lg font-bold tracking-widest uppercase bg-white hover:bg-black hover:text-white transition-colors hover:border-black'
+            >
+              play again
+            </button>
+          </div>
+        )}
+
+        <div
+          className='flex flex-col items-center justify-between h-[200px] lg:h-[400px]'
+          data-result={result.message}
+        >
+          <h3 className='text-white text-lg lg:text-2xl font-bold tracking-widest'>
+            THE HOUSE PICKED
+          </h3>
+          {cpuGuess ? (
+            <ResultButtonCircle
+              looser={result.message === 'You Lose'}
+              {...(gameActions.find((x) => x.name === cpuGuess) as GameAction)}
+            />
+          ) : (
+            <div className='w-56 h-56 rounded-full bg-black/10 mb-6'></div>
+          )}
+        </div>
       </div>
 
       {cpuGuess && (
-        <div className='flex flex-col justify-center items-center mt-16 gap-4 text-center'>
-          <h2 className='text-white text-6xl font-bold tracking-widest uppercase'>
+        <div className='flex-col justify-center items-center mt-16 gap-4 text-center flex sm:hidden'>
+          <h2 className='text-white text-5xl lg:text-6xl font-bold tracking-widest uppercase'>
             {result.message}
           </h2>
           <button
             onClick={playAgain}
-            className='border border-white rounded-lg text-black px-9 py-2 text-lg font-bold tracking-widest uppercase bg-white hover:bg-black hover:text-white transition-colors hover:border-black'
+            className='border border-white rounded-xl text-black px-20 py-3 text-lg font-bold tracking-widest uppercase bg-white hover:bg-black hover:text-white transition-colors hover:border-black'
           >
             play again
           </button>
         </div>
       )}
-
-      <div
-        className='flex flex-col items-center justify-between h-[400px]'
-        data-result={result.message}
-      >
-        <h3 className='text-white text-2xl font-bold tracking-widest'>
-          THE HOUSE PICKED
-        </h3>
-        {cpuGuess ? (
-          <ResultButtonCircle
-            looser={result.message === 'You Lose'}
-            {...(gameActions.find((x) => x.name === cpuGuess) as GameAction)}
-          />
-        ) : (
-          <div className='w-56 h-56 rounded-full bg-black/10 mb-6'></div>
-        )}
-      </div>
-    </div>
+    </>
   )
 }

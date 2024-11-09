@@ -1,8 +1,12 @@
 import type { Metadata } from 'next'
 import { Barlow_Semi_Condensed } from 'next/font/google'
+import { AuthProvider } from '@/components/provider/auth-provider'
+
 import './globals.css'
+import Header from '@/components/header'
 
 const font = Barlow_Semi_Condensed({
+  subsets: ['latin'],
   weight: ['300', '400', '500', '600', '700', '800'],
 })
 
@@ -19,9 +23,12 @@ export default function RootLayout({
   return (
     <html lang='en'>
       <body
-        className={`${font.className} antialiased bg-body-gradient pt-12 grid place-items-center`}
+        className={`${font.className} antialiased bg-body-gradient pt-4 lg:pt-8 min-h-screen`}
       >
-        {children}
+        <AuthProvider>
+          <Header />
+          {children}
+        </AuthProvider>
       </body>
     </html>
   )
