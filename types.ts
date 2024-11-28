@@ -9,7 +9,7 @@ export type GameAction = {
 
 export type ActionCircleProps = {
   className?: string
-  action: () => void
+  action?: () => void
   src: string
   alt: string
   w?: number

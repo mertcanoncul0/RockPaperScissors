@@ -36,4 +36,20 @@ export const gameActions: GameAction[] = [
     src: '/paper.svg',
     alt: 'Paper',
   },
+  {
+    id: 4,
+    name: 'lizard',
+    beats: 'spock',
+    losesTo: 'rock',
+    src: '/lizard.svg',
+    alt: 'Lizard',
+  },
+  {
+    id: 5,
+    name: 'spock',
+    beats: 'scissors',
+    losesTo: 'paper',
+    src: '/spock.svg',
+    alt: 'Spock',
+  },
 ]

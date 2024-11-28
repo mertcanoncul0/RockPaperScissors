@@ -13,7 +13,15 @@ type User = {
 
 type Options = {
   winningScore: number
-  moves?: string[]
+  moves: string[]
+}
+
+type Game = {
+  user: number
+  gpu: number
+  userMove: string
+  gpuMove: string
+  isGameOver?: boolean
 }
 
 interface AuthContextType {
@@ -24,6 +32,8 @@ interface AuthContextType {
   options: Options
   setOptions: (options: Options) => void
   isLoading: boolean
+  game: Game
+  setGame: (game: Game) => void
 }
 
 const defaultAuthContext: AuthContextType = {
@@ -42,6 +52,14 @@ const defaultAuthContext: AuthContextType = {
   },
   setOptions: () => {},
   isLoading: false,
+  game: {
+    gpu: 0,
+    user: 0,
+    userMove: '',
+    gpuMove: '',
+    isGameOver: false,
+  },
+  setGame: () => {},
 }
 
 const AuthContext = createContext<AuthContextType>(defaultAuthContext)
@@ -51,6 +69,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User>(defaultAuthContext.user)
   const [options, setOptions] = useState<Options>(defaultAuthContext.options)
   const [isLoading, setIsLoading] = useState<boolean>(true)
+  const [game, setGame] = useState<Game>(defaultAuthContext.game)
 
   useEffect(() => {
     const checkAuthStatus = async () => {
@@ -86,6 +105,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         setUser,
         setAuthenticated: setIsAuthenticated,
         isLoading,
+        game,
+        setGame,
       }}
     >
       <NextUIProvider>

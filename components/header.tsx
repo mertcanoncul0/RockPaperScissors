@@ -7,7 +7,7 @@ import { StepBack } from 'lucide-react'
 import Link from 'next/link'
 
 export default function Header() {
-  const { user, options, isLoading } = useAuth()
+  const { user, options, isLoading, game } = useAuth()
   const pathname = usePathname()
   const isGamePage = pathname.startsWith('/game')
 
@@ -27,16 +27,23 @@ export default function Header() {
           <span className="text-primary">Lizard Spock</span>
         )}
       </h1>
-      <div className="bg-white py-3 lmd:py-4 px-8 lmd:px-12 rounded-lmd text-center">
-        <span className="block text-score tracking-widest text-base font-semibold uppercase">
+      <div className="rounded-md bg-white py-2 psm:py-3 lmd:py-4 px-4 pmd:px-8 lmd:px-12 rounded-lmd text-center">
+        <span className="block ml-2 text-score tracking-widest text-2xl font-semibold uppercase">
           Score
         </span>
         {!isGamePage && isLoading ? (
           <Spinner color="secondary" />
         ) : (
-          <span className="font-bold text-5xl lmd:text-6xl text-score-number">
-            {isGamePage ? 0 : user.score}
-          </span>
+          <div className="flex items-center gap-2 psm:gap-4">
+            <span className="font-bold text-3xl pmd:text-5xl lmd:text-6xl text-score-number flex items-center gap-2">
+              <span className="text-base psm:text-xl">User</span>
+              {isGamePage ? game?.user : user.score}
+            </span>
+            <span className="font-bold text-3xl pmd:text-5xl lmd:text-6xl text-score-number flex items-center gap-2">
+              {isGamePage ? game?.gpu : user.score}
+              <span className="text-base psm:text-xl">GPU</span>
+            </span>
+          </div>
         )}
       </div>
     </header>

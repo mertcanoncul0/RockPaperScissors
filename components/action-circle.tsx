@@ -6,13 +6,13 @@ export default function ActionCircle({
   className,
   src,
   alt,
-  action,
+  action = () => {},
 }: ActionCircleProps) {
   return (
     <div
       onClick={action}
       className={twMerge(
-        'w-32 h-32 bg-white rounded-full flex items-center justify-center',
+        'w-28 h-28 psm:w-32 psm:h-32 pmd:w-36 pmd:h-36 bg-white rounded-full flex items-center justify-center',
         className
       )}
     >
