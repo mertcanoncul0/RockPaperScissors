@@ -9,7 +9,7 @@ import Link from 'next/link'
 import { twMerge } from 'tailwind-merge'
 
 export default function Home() {
-  const { options, setOptions } = useAuth()
+  const { options, setOptions, game, setGame } = useAuth()
 
   return (
     <Card
@@ -100,6 +100,7 @@ export default function Home() {
 
       <Link
         href="/game"
+        onClick={() => setGame({ ...game, user: 0, gpu: 0, isGameOver: false })}
         className="bg-button-gradient text-center hover:brightness-150 text-white text-2xl font-bold w-full px-18 py-2 rounded-lg"
       >
         Oyuna Başla

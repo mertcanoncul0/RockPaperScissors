@@ -20,6 +20,7 @@ model User {
   password    String
   score       Int
   playedMatch Int
+  wonMatch    Int
   wonRate     Float
 
   createdAt   DateTime @default(now())

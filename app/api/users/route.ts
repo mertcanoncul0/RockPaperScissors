@@ -19,8 +19,24 @@ export async function GET(request: NextRequest) {
     },
   })
 
+  const usersWithRate = users.map((user, index) => {
+    if (user.playedMatch > 1) {
+      return {
+        ...user,
+        wonRate: ((user.wonMatch / user.playedMatch) * 100).toFixed(2),
+      }
+    }
+
+    return {
+      ...user,
+      wonRate: 0,
+    }
+  })
+
+  console.log(usersWithRate)
+
   return NextResponse.json({
-    data: users,
+    data: usersWithRate,
     page: Number(page),
     limit: take,
     totalRecords,

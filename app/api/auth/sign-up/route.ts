@@ -38,6 +38,7 @@ export async function POST(request: NextRequest) {
       score: 0,
       playedMatch: 0,
       wonRate: 0,
+      wonMatch: 0,
     },
   })
 

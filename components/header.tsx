@@ -31,9 +31,18 @@ export default function Header() {
         <span className="block ml-2 text-score tracking-widest text-2xl font-semibold uppercase">
           Score
         </span>
+
         {!isGamePage && isLoading ? (
           <Spinner color="secondary" />
         ) : (
+          !isGamePage && (
+            <span className="font-bold text-3xl pmd:text-5xl lmd:text-6xl text-score-number flex justify-center items-center gap-2">
+              {isGamePage ? game?.user : user.score}
+            </span>
+          )
+        )}
+
+        {isGamePage && (
           <div className="flex items-center gap-2 psm:gap-4">
             <span className="font-bold text-3xl pmd:text-5xl lmd:text-6xl text-score-number flex items-center gap-2">
               <span className="text-base psm:text-xl">User</span>

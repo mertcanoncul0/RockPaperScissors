@@ -10,6 +10,20 @@ export default function GamePage() {
   const { isAuthenticated, user, options, game, setGame } = useAuth()
   console.log(isAuthenticated, options, user)
 
+  useEffect(() => {
+    fetch('/api/users/score', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include',
+    }).then((response) => {
+      if (response.ok) {
+        console.log('PLAYED MATCH Updated')
+      }
+    })
+  }, [])
+
   const handleAction = (action: string) => {
     const moves = options.moves
     const gpuMove = moves[Math.floor(Math.random() * moves.length)]
@@ -25,7 +39,7 @@ export default function GamePage() {
         userMove: '',
         gpuMove: '',
       })
-    }, 1000)
+    }, 100)
   }
 
   useEffect(() => {
@@ -35,6 +49,20 @@ export default function GamePage() {
   }, [game.gpu, game.user])
 
   if (game.isGameOver) {
+    if (isAuthenticated && game.user > game.gpu) {
+      fetch('/api/users/score', {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify({ score: options.winningScore }),
+      }).then((response) => {
+        if (response.ok) {
+          console.log('Score Updated')
+        }
+      })
+    }
     return (
       <div className="max-w-max mx-auto mt-32">
         <h1 className="text-white text-4xl font-bold">Game Over</h1>
@@ -43,9 +71,20 @@ export default function GamePage() {
         </p>
         <button
           className="mt-4 px-4 py-2 bg-white text-black rounded-md font-semibold"
-          onClick={() =>
-            setGame({ ...game, user: 0, gpu: 0, isGameOver: false })
-          }
+          onClick={() => {
+            fetch('/api/users/score', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              credentials: 'include',
+            }).then((response) => {
+              if (response.ok) {
+                console.log('PLAYED MATCH Updated')
+              }
+              setGame({ ...game, user: 0, gpu: 0, isGameOver: false })
+            })
+          }}
         >
           Play Again
         </button>
