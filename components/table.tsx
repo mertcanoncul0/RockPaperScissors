@@ -51,16 +51,16 @@ export default function LeaderTable() {
     >
       <TableHeader>
         <TableColumn key="username" className="text-lg">
-          Username
+          Kullanıcı Adı
         </TableColumn>
         <TableColumn key="playedMatch" className="text-lg">
-          Played Match
+          Oynanan Maç
         </TableColumn>
         <TableColumn key="score" className="text-lg">
-          Score
+          Skor
         </TableColumn>
         <TableColumn key="wonRate" className="text-lg">
-          Win Rate
+          Kazanma Oranı
         </TableColumn>
       </TableHeader>
       <TableBody

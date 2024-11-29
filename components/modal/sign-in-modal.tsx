@@ -14,6 +14,8 @@ import { useAuth } from '../provider/auth-provider'
 import { useState } from 'react'
 import { EyeClosedIcon, LucideEye } from 'lucide-react'
 import { toast } from 'sonner'
+import { scoreUpdate } from '@/service/score'
+import { getSecureData } from '@/actions/localstorage'
 
 type SignInModalProps = {
   isOpen: boolean
@@ -31,7 +33,7 @@ export default function SignInModal({
   onOpenChange,
   handleSignInChange,
 }: SignInModalProps) {
-  const { user, setUser, setAuthenticated } = useAuth()
+  const { setUser, setAuthenticated } = useAuth()
   const [isVisible, setIsVisible] = useState(false)
   const toggleVisibility = () => setIsVisible(!isVisible)
 
@@ -42,7 +44,7 @@ export default function SignInModal({
   } = useForm<z.infer<typeof signInSchema>>({
     resolver: zodResolver(signInSchema),
     values: {
-      email: user.email,
+      email: '',
       password: '',
     },
   })
@@ -59,6 +61,12 @@ export default function SignInModal({
 
     if (response.ok) {
       const user = await response.json()
+
+      if (Number(user.score) === 0) {
+        user.score = Number(getSecureData('score')) || 0
+        scoreUpdate(Number(user.score))
+      }
+
       setUser(user)
       setAuthenticated(true)
       onOpenChange(false)

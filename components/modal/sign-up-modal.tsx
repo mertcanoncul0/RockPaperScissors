@@ -49,7 +49,6 @@ export default function SignUpModal({
     },
   })
 
-  const { setUser, setAuthenticated } = useAuth()
   const [isVisible, setIsVisible] = useState(false)
   const toggleVisibility = () => setIsVisible(!isVisible)
 
@@ -65,7 +64,7 @@ export default function SignUpModal({
 
     if (response.ok) {
       const user = await response.json()
-      setUser(user)
+      // setUser(user)
       onOpenChange(false)
       onOpenSign()
       toast.success('Kayıt Başarılı', { duration: 1000 })

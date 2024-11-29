@@ -3,6 +3,7 @@
 import { createContext, useContext, useEffect, useState } from 'react'
 import { NextUIProvider } from '@nextui-org/react'
 import { Toaster } from 'sonner'
+import { getSecureData, setSecureData } from '@/actions/localstorage'
 
 type User = {
   id: string
@@ -86,7 +87,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           setIsLoading(false)
         }
       } catch (error) {
-        console.error('Failed to check authentication status', error)
+        console.error('Kimlik doğrulama durumu kontrol edilemedi', error)
         setIsAuthenticated(false)
         setIsLoading(false)
       }
@@ -94,6 +95,22 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     checkAuthStatus()
   }, [])
+
+  useEffect(() => {
+    if (!isAuthenticated) {
+      const localScore = getSecureData('score')
+
+      if (localScore) {
+        setUser({ ...user, score: Number(localScore) })
+      }
+    }
+  }, [])
+
+  useEffect(() => {
+    if (!isAuthenticated) {
+      setSecureData('score', user.score)
+    }
+  }, [user.score])
 
   return (
     <AuthContext.Provider

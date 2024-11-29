@@ -2,27 +2,13 @@
 import ActionCircle from '@/components/action-circle'
 import { useAuth } from '@/components/provider/auth-provider'
 import { gameActions } from '@/constants'
+import { playedMatch, scoreUpdate } from '@/service/score'
 import Image from 'next/image'
 import { useEffect } from 'react'
 import { twMerge } from 'tailwind-merge'
 
 export default function GamePage() {
-  const { isAuthenticated, user, options, game, setGame } = useAuth()
-  console.log(isAuthenticated, options, user)
-
-  useEffect(() => {
-    fetch('/api/users/score', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      credentials: 'include',
-    }).then((response) => {
-      if (response.ok) {
-        console.log('PLAYED MATCH Updated')
-      }
-    })
-  }, [])
+  const { isAuthenticated, setUser, user, options, game, setGame } = useAuth()
 
   const handleAction = (action: string) => {
     const moves = options.moves
@@ -48,42 +34,26 @@ export default function GamePage() {
     }
   }, [game.gpu, game.user])
 
-  if (game.isGameOver) {
-    if (isAuthenticated && game.user > game.gpu) {
-      fetch('/api/users/score', {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        credentials: 'include',
-        body: JSON.stringify({ score: options.winningScore }),
-      }).then((response) => {
-        if (response.ok) {
-          console.log('Score Updated')
-        }
-      })
+  useEffect(() => {
+    if (isAuthenticated && game.isGameOver) {
+      playedMatch()
+      game.user > game.gpu && scoreUpdate(options.winningScore)
     }
+  }, [game.isGameOver])
+
+  if (game.isGameOver) {
     return (
       <div className="max-w-max mx-auto mt-32">
         <h1 className="text-white text-4xl font-bold">Game Over</h1>
         <p className="text-white text-2xl font-semibold">
-          {game.user > game.gpu ? 'You Win' : 'You Lose'}
+          {game.user > game.gpu ? 'Kazandın' : 'Kaybettin'}
         </p>
         <button
           className="mt-4 px-4 py-2 bg-white text-black rounded-md font-semibold"
           onClick={() => {
-            fetch('/api/users/score', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-              },
-              credentials: 'include',
-            }).then((response) => {
-              if (response.ok) {
-                console.log('PLAYED MATCH Updated')
-              }
-              setGame({ ...game, user: 0, gpu: 0, isGameOver: false })
-            })
+            setGame({ ...game, user: 0, gpu: 0, isGameOver: false })
+            game.user > game.gpu &&
+              setUser({ ...user, score: user.score + options.winningScore })
           }}
         >
           Play Again
@@ -103,11 +73,11 @@ export default function GamePage() {
         <div className="w-full flex items-center justify-between p-8">
           <div className="flex flex-col gap-2 justify-center items-center text-white text-xl font-bold">
             <ActionCircle src={`/${game.userMove}.svg`} alt={game.userMove} />
-            <p>You Picked</p>
+            <p>Senin Seçimin</p>
           </div>
           <div className="flex flex-col gap-2 justify-center items-center text-white text-xl font-bold">
             <ActionCircle src={`/${game.gpuMove}.svg`} alt={game.gpuMove} />
-            <p>GPU Picked</p>
+            <p>GPU Seçimi</p>
           </div>
         </div>
       ) : (
