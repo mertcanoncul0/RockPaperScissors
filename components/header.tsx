@@ -1,15 +1,17 @@
 'use client'
 
-import { Spinner } from '@nextui-org/react'
+import { Spinner, Tooltip } from '@nextui-org/react'
 import { useAuth } from './provider/auth-provider'
 import { usePathname } from 'next/navigation'
 import { StepBack } from 'lucide-react'
 import Link from 'next/link'
 
 export default function Header() {
-  const { user, options, setUser, isLoading, game } = useAuth()
+  const { isAuthenticated, user, options, setUser, isLoading, game } = useAuth()
   const pathname = usePathname()
   const isGamePage = pathname.startsWith('/game')
+
+  const score = isGamePage ? game?.user : user.score
 
   return (
     <header
@@ -43,9 +45,20 @@ export default function Header() {
           <Spinner color="secondary" />
         ) : (
           !isGamePage && (
-            <span className="font-bold text-3xl pmd:text-5xl lmd:text-6xl text-score-number flex justify-center items-center gap-2">
-              {isGamePage ? game?.user : user.score}
-            </span>
+            <Tooltip
+              content={
+                isAuthenticated
+                  ? 'Oyun Skorunuz (Hesap)'
+                  : 'Oyun Skorunuz (Tarayıcı)'
+              }
+              className="text-lg font-semibold"
+              color="secondary"
+              placement="right"
+            >
+              <span className="font-bold text-3xl pmd:text-5xl lmd:text-6xl text-score-number flex justify-center items-center gap-2">
+                {score}
+              </span>
+            </Tooltip>
           )
         )}
 
