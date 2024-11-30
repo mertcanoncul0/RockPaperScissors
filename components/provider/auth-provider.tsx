@@ -22,6 +22,8 @@ type Game = {
   gpu: number
   userMove: string
   gpuMove: string
+  lastUserMove?: string
+  lastGpuMove?: string
   isGameOver?: boolean
 }
 
@@ -59,6 +61,8 @@ const defaultAuthContext: AuthContextType = {
     userMove: '',
     gpuMove: '',
     isGameOver: false,
+    lastGpuMove: '',
+    lastUserMove: '',
   },
   setGame: () => {},
 }
@@ -128,7 +132,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     >
       <NextUIProvider>
         {children}
-        <Toaster richColors />
+        <Toaster richColors expand />
       </NextUIProvider>
     </AuthContext.Provider>
   )

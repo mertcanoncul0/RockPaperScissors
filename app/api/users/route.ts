@@ -33,8 +33,6 @@ export async function GET(request: NextRequest) {
     }
   })
 
-  console.log(usersWithRate)
-
   return NextResponse.json({
     data: usersWithRate,
     page: Number(page),
