@@ -1,5 +1,6 @@
 'use client'
 
+import { myToast } from '@/lib/helper'
 import { toast } from 'sonner'
 
 export async function scoreUpdate(winningScore: number) {
@@ -13,7 +14,7 @@ export async function scoreUpdate(winningScore: number) {
   })
 
   if (response.ok) {
-    toast.success('Skor güncellendi!')
+    myToast('Skor güncellendi!', 'success', 1300)
   }
 }
 
@@ -27,6 +28,6 @@ export async function playedMatch() {
   })
 
   if (response.ok) {
-    toast.success('Oynanan maç eklendi!')
+    myToast('Oynanılan maçlara eklendi!', 'success', 1300)
   }
 }

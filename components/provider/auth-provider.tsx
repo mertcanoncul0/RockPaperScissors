@@ -128,7 +128,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     >
       <NextUIProvider>
         {children}
-        <Toaster />
+        <Toaster richColors />
       </NextUIProvider>
     </AuthContext.Provider>
   )

@@ -19,7 +19,7 @@ export async function GET(request: NextRequest) {
     },
   })
 
-  const usersWithRate = users.map((user, index) => {
+  const usersWithRate = users.map((user) => {
     if (user.playedMatch > 1) {
       return {
         ...user,

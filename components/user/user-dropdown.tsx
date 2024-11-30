@@ -7,10 +7,10 @@ import {
   useDisclosure,
 } from '@nextui-org/react'
 import { useAuth } from '../provider/auth-provider'
-import { User, UserRound } from 'lucide-react'
+import { UserRound } from 'lucide-react'
 import SignUpModal from '../modal/sign-up-modal'
 import SignInModal from '../modal/sign-in-modal'
-import { toast } from 'sonner'
+import { myToast } from '@/lib/helper'
 
 export default function UserDropdown() {
   const { isAuthenticated, isLoading, user, setAuthenticated, setUser } =
@@ -79,7 +79,7 @@ export default function UserDropdown() {
         username: '',
         score: 0,
       })
-      toast.error('Çıkış Yapıldı', { duration: 1000 })
+      myToast('Çıkış Yapıldı', 'error', 1300)
     }
   }
 

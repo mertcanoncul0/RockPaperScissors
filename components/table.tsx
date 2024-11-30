@@ -20,7 +20,18 @@ export default function LeaderTable() {
 
   const { data, isLoading } = useSWR(`/api/users?page=${page}`, fetcher, {
     keepPreviousData: true,
-  })
+  }) as {
+    data: {
+      data: {
+        username: string
+        playedMatch: number
+        score: number
+        wonRate: number
+      }[]
+      count: number
+    }
+    isLoading: boolean
+  }
 
   const rowsPerPage = 10
 
@@ -68,8 +79,8 @@ export default function LeaderTable() {
         loadingContent={<Spinner />}
         loadingState={loadingState}
       >
-        {(item: any) => (
-          <TableRow key={item?.name}>
+        {(item) => (
+          <TableRow key={`${item?.username}-${item.playedMatch}`}>
             {(columnKey) => (
               <TableCell className="table-cell">
                 {getKeyValue(item, columnKey)}

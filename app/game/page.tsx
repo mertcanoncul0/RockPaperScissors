@@ -37,7 +37,7 @@ export default function GamePage() {
   useEffect(() => {
     if (isAuthenticated && game.isGameOver) {
       playedMatch()
-      game.user > game.gpu && scoreUpdate(options.winningScore)
+      if (game.user > game.gpu) scoreUpdate(options.winningScore)
     }
   }, [game.isGameOver])
 
@@ -52,7 +52,7 @@ export default function GamePage() {
           className="mt-4 px-4 py-2 bg-white text-black rounded-md font-semibold"
           onClick={() => {
             setGame({ ...game, user: 0, gpu: 0, isGameOver: false })
-            game.user > game.gpu &&
+            if (game.user > game.gpu)
               setUser({ ...user, score: user.score + options.winningScore })
           }}
         >

@@ -7,24 +7,30 @@ export async function POST(request: NextRequest) {
 
   if (!email || !password || !username) {
     return NextResponse.json(
-      { error: 'Tüm alanlar gereklidir' },
+      { message: 'Tüm alanlar gereklidir' },
       { status: 400 }
     )
   }
 
-  const user = await prisma.user.findFirst({ where: { email } })
+  const findUserByEmail = await prisma.user.findFirst({ where: { email } })
+  const findUserByUsername = await prisma.user.findFirst({
+    where: { username },
+  })
 
-  if (user) {
-    if (user.username?.toLowerCase() === username.toLowerCase()) {
+  if (findUserByEmail || findUserByUsername) {
+    if (
+      findUserByEmail?.username?.toLowerCase() === username.toLowerCase() ||
+      findUserByUsername?.email?.toLowerCase() === email.toLowerCase()
+    ) {
       return NextResponse.json(
-        { error: 'Bu isim zaten bir kullanıcıya kayıtlı' },
-        { status: 404 }
+        { message: 'Bu isim zaten bir kullanıcıya kayıtlı' },
+        { status: 409 }
       )
     }
 
     return NextResponse.json(
-      { error: 'Bu Email zaten bir kullanıcıya kayıtlı' },
-      { status: 404 }
+      { message: 'Bu Email zaten bir kullanıcıya kayıtlı' },
+      { status: 409 }
     )
   }
 
@@ -42,5 +48,5 @@ export async function POST(request: NextRequest) {
     },
   })
 
-  return NextResponse.json({ ...newUser })
+  return NextResponse.json({ ...newUser, message: 'Kaydınız Başarılı' })
 }

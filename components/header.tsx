@@ -21,7 +21,7 @@ export default function Header() {
             href="/"
             title="Go Back"
             onClick={() => {
-              game.user > game.gpu &&
+              if (game.user > game.gpu)
                 setUser({ ...user, score: user.score + options.winningScore })
             }}
           >

@@ -13,9 +13,9 @@ import { z } from 'zod'
 import { useAuth } from '../provider/auth-provider'
 import { useState } from 'react'
 import { EyeClosedIcon, LucideEye } from 'lucide-react'
-import { toast } from 'sonner'
 import { scoreUpdate } from '@/service/score'
 import { getSecureData } from '@/actions/localstorage'
+import { myToast } from '@/lib/helper'
 
 type SignInModalProps = {
   isOpen: boolean
@@ -70,7 +70,7 @@ export default function SignInModal({
       setUser(user)
       setAuthenticated(true)
       onOpenChange(false)
-      toast.success('Giriş Başarılı', { duration: 1000 })
+      myToast('Giriş Başarılı', 'success', 1300)
     }
   }
 
@@ -79,7 +79,7 @@ export default function SignInModal({
       <ModalContent>
         {(onClose) => (
           <>
-            <ModalHeader>Rock Paper Scissors'a Giriş Yap</ModalHeader>
+            <ModalHeader>Rock Paper Scissors&apos;a Giriş Yap</ModalHeader>
             <ModalBody as="form" onSubmit={handleSubmit(onSubmit)}>
               <Input
                 type="email"
@@ -117,7 +117,7 @@ export default function SignInModal({
               </p>
               <ModalFooter className="flex justify-between items-center">
                 <button className="text-base" onClick={() => {}}>
-                  You don't have an account?{' '}
+                  You don&apos;t have an account?{' '}
                   <span
                     className="text-primary-600 cursor-pointer hover:underline"
                     onClick={handleSignInChange}

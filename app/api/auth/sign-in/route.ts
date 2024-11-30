@@ -25,7 +25,7 @@ export async function POST(request: NextRequest) {
   const isValid = await bcrypt.compare(password, user.password)
 
   if (!isValid) {
-    return NextResponse.json({ error: 'Şifre yanlış' }, { status: 400 })
+    return NextResponse.json({ error: 'Şifre yanlış' }, { status: 403 })
   }
 
   const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET!, {

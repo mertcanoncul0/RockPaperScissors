@@ -1,5 +1,5 @@
+import { myToast } from '@/lib/helper'
 import CryptoJS from 'crypto-js'
-import { toast } from 'sonner'
 
 const SECRET_KEY = `${process.env.LOCAL_SECRET}`
 
@@ -26,7 +26,8 @@ export function getSecureData(key: string) {
       SECRET_KEY
     ).toString()
     if (signature !== validSignature) {
-      toast.error('Manipüle edilmiş veri algılandı!')
+      myToast('Manipüle edilmiş veri algılandı!', 'error', 1200)
+
       return null
     }
 
@@ -36,7 +37,12 @@ export function getSecureData(key: string) {
     ).toString(CryptoJS.enc.Utf8)
     return JSON.parse(decryptedData)
   } catch (error) {
-    toast.error('Localdeki şifrelenmiş veriyi çözme sırasında hata oluştu!')
+    myToast(
+      'Localdeki şifrelenmiş veriyi çözme sırasında hata oluştu!',
+      'error',
+      1200
+    )
+
     return null
   }
 }

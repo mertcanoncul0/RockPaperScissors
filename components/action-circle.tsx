@@ -12,7 +12,7 @@ export default function ActionCircle({
     <div
       onClick={action}
       className={twMerge(
-        'w-28 h-28 psm:w-32 psm:h-32 pmd:w-36 pmd:h-36 bg-white rounded-full flex items-center justify-center',
+        'w-28 h-28 psm:w-32 select-none psm:h-32 pmd:w-36 pmd:h-36 bg-white rounded-full flex items-center justify-center',
         className
       )}
     >

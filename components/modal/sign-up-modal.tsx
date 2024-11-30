@@ -11,10 +11,10 @@ import {
 } from '@nextui-org/react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
-import { useAuth } from '../provider/auth-provider'
 import { useState } from 'react'
 import { EyeClosedIcon, LucideEye } from 'lucide-react'
-import { toast } from 'sonner'
+import { signUp } from '@/service/auth'
+import { myToast } from '@/lib/helper'
 
 type SignUpModalProps = {
   isOpen: boolean
@@ -53,22 +53,19 @@ export default function SignUpModal({
   const toggleVisibility = () => setIsVisible(!isVisible)
 
   const onSubmit = async (data: z.infer<typeof signUpSchema>) => {
-    const response = await fetch('/api/auth/sign-up', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      credentials: 'include',
-      body: JSON.stringify(data),
-    })
+    const res = await signUp(data)
 
-    if (response.ok) {
-      const user = await response.json()
-      // setUser(user)
-      onOpenChange(false)
-      onOpenSign()
-      toast.success('Kayıt Başarılı', { duration: 1000 })
+    if (!res.ok) {
+      const data = (await res.json()) as { message: string }
+      myToast(data.message, 'error', 1300)
+
+      return
     }
+
+    const obj = (await res.json()) as { message: string }
+    myToast(obj.message, 'success', 1300)
+    onOpenChange(false)
+    onOpenSign()
   }
 
   return (
@@ -76,7 +73,7 @@ export default function SignUpModal({
       <ModalContent>
         {(onClose) => (
           <>
-            <ModalHeader>Rock Paper Scissors'a Kayıt Ol</ModalHeader>
+            <ModalHeader>Rock Paper Scissors&apos;a Kayıt Ol</ModalHeader>
             <ModalBody as="form" onSubmit={handleSubmit(onSubmit)}>
               <Input
                 type="text"
