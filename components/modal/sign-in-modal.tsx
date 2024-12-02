@@ -64,7 +64,7 @@ export default function SignInModal({
 
       if (Number(user.score) === 0) {
         user.score = Number(getSecureData('score')) || 0
-        scoreUpdate(Number(user.score))
+        scoreUpdate(Number(user.score), true)
       }
 
       setUser(user)
@@ -116,7 +116,7 @@ export default function SignInModal({
                 {errors.password?.message}
               </p>
               <ModalFooter className="flex justify-between items-center">
-                <button className="text-base" onClick={() => {}}>
+                <button className="text-base" onClick={() => { }}>
                   You don&apos;t have an account?{' '}
                   <span
                     className="text-primary-600 cursor-pointer hover:underline"

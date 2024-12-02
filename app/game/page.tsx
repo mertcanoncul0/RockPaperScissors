@@ -30,7 +30,7 @@ export default function GamePage() {
     })
     setTimeout(() => {
       setPick(false)
-    }, 600)
+    }, 575)
   }
 
   useEffect(() => {
@@ -42,7 +42,7 @@ export default function GamePage() {
   useEffect(() => {
     if (isAuthenticated && game.isGameOver) {
       playedMatch()
-      if (game.user > game.gpu) scoreUpdate(options.winningScore)
+      if (game.user > game.gpu) scoreUpdate(options.winningScore, false)
     }
   }, [game.isGameOver])
 
@@ -52,13 +52,10 @@ export default function GamePage() {
     return (
       <div className="max-w-max mx-auto mt-16 pmd:mt-32">
         <h1 className="text-white text-center text-6xl font-bold">
-          {game.isGameOver
-            ? game.user > game.gpu
-              ? 'Kazandın'
-              : 'Kaybettin'
-            : lastUserMove?.beats === game.lastGpuMove
-            ? 'Turu Kazandın'
-            : 'Turu Kaybettin'}
+          {!game.isGameOver
+            ? game.lastUserMove === game.lastGpuMove
+              ? 'Tur Berabere' : lastUserMove?.beats === game.lastGpuMove ? 'Turu Kazandın' : 'Turu Kaybettin' :
+            game.user > game.gpu ? 'Oyunu Kazandın' : 'Oyunu Kaybettin'}
         </h1>
 
         <div className="w-full flex items-center justify-between gap-4 p-4">

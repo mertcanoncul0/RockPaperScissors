@@ -1,16 +1,17 @@
 'use client'
 
 import { myToast } from '@/lib/helper'
-import { toast } from 'sonner'
 
-export async function scoreUpdate(winningScore: number) {
+export async function scoreUpdate(winningScore: number, local: boolean) {
+  console.log(local);
+
   const response = await fetch('/api/users/score', {
     method: 'PATCH',
     headers: {
       'Content-Type': 'application/json',
     },
     credentials: 'include',
-    body: JSON.stringify({ score: winningScore }),
+    body: JSON.stringify({ score: winningScore, local: local ? true : false }),
   })
 
   if (response.ok) {

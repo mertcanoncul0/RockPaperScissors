@@ -4,7 +4,10 @@ import jwt from 'jsonwebtoken'
 
 export async function PATCH(request: NextRequest) {
   const token = request.cookies.get('token')?.value
-  const { score } = await request.json()
+  const { score, local } = await request.json()
+
+  console.log(score, local);
+
 
   if (!token) {
     return NextResponse.json({ message: 'Token yok' }, { status: 401 })
@@ -26,7 +29,7 @@ export async function PATCH(request: NextRequest) {
       where: { id },
       data: {
         score: user.score + score,
-        wonMatch: user.wonMatch + 1,
+        wonMatch: !local ? user.wonMatch + 1 : user.wonMatch,
       },
     })
 
