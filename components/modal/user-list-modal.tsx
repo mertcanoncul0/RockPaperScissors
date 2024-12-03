@@ -8,6 +8,7 @@ export default function UserListModal() {
     <>
       <button
         onClick={onOpen}
+        aria-label="Oyuncu Listesini Göster"
         className="cursor-pointer rounded-lg bg-[#BCCED9] hover:bg-button-gradient p-2 text-green-600 hover:text-white"
       >
         <Gamepad2 className="hover:brightness-150 " size={32} />

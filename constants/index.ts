@@ -11,45 +11,46 @@ export const gameMoves = {
     title: '..., Lizard, Spock',
   },
 }
+
 export const gameActions: GameAction[] = [
   {
     id: 1,
     name: 'scissors',
-    beats: 'paper',
-    losesTo: 'rock',
+    beats: ['paper', 'lizard'],
+    losesTo: ['rock', 'spock'],
     src: '/scissors.svg',
     alt: 'Scissors',
   },
   {
     id: 2,
     name: 'rock',
-    beats: 'scissors',
-    losesTo: 'paper',
+    beats: ['scissors', 'lizard'],
+    losesTo: ['paper', 'spock'],
     src: '/rock.svg',
     alt: 'Rock',
   },
   {
     id: 3,
     name: 'paper',
-    beats: 'rock',
-    losesTo: 'scissors',
+    beats: ['rock', 'spock'],
+    losesTo: ['scissors', 'lizard'],
     src: '/paper.svg',
     alt: 'Paper',
   },
   {
     id: 4,
     name: 'lizard',
-    beats: 'spock',
-    losesTo: 'rock',
+    beats: ['spock', 'paper'],
+    losesTo: ['rock', 'scissors'],
     src: '/lizard.svg',
     alt: 'Lizard',
   },
   {
     id: 5,
     name: 'spock',
-    beats: 'scissors',
-    losesTo: 'paper',
+    beats: ['scissors', 'rock'],
+    losesTo: ['paper', 'lizard'],
     src: '/spock.svg',
     alt: 'Spock',
   },
-]
+];

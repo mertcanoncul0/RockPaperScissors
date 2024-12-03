@@ -5,6 +5,7 @@ import { AuthProvider } from '@/components/provider/auth-provider'
 import './globals.css'
 import Header from '@/components/header'
 import RulesButton from '@/components/rules-button'
+import Version from '@/components/version'
 
 const font = Barlow_Semi_Condensed({
   subsets: ['latin'],
@@ -24,13 +25,14 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${font.className} antialiased bg-body-gradient pt-4 lg:pt-8 min-h-screen `}
+        className={`${font.className} antialiased bg-body-gradient pt-4 lg:pt-8 min-h-screen h-full`}
       >
         <AuthProvider>
           <Header />
           {children}
+          <RulesButton />
+          <Version />
         </AuthProvider>
-        <RulesButton />
       </body>
     </html>
   )

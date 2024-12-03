@@ -87,7 +87,7 @@ export default function UserDropdown() {
     <>
       <Dropdown>
         <DropdownTrigger>
-          <button className="cursor-pointer rounded-lg bg-button-gradient p-2 text-white h-12 w-12 hover:brightness-150">
+          <button aria-label='Kullanıcı menüsü' className="cursor-pointer rounded-lg bg-button-gradient p-2 text-white h-12 w-12 hover:brightness-150">
             {user.username.charAt(0).toUpperCase()}
           </button>
         </DropdownTrigger>

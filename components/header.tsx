@@ -38,7 +38,7 @@ export default function Header() {
       </h1>
       <div className="rounded-md bg-white py-2 psm:py-3 lmd:py-4 px-2 pmd:px-8 lmd:px-12 rounded-lmd text-center">
         <span className="block ml-2 text-score tracking-widest text-2xl font-semibold uppercase">
-          Skor
+          Skor {isGamePage ? <span>({options.winningScore})</span> : ""}
         </span>
 
         {!isGamePage && isLoading ? (

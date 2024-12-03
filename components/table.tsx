@@ -40,6 +40,7 @@ export default function LeaderTable() {
   }, [data?.count, rowsPerPage])
 
   const loadingState = isLoading || data.data?.length === 0 ? 'loading' : 'idle'
+  console.log(data)
 
   return (
     <Table

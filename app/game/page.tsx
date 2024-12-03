@@ -19,18 +19,16 @@ export default function GamePage() {
 
     setGame({ ...game, gpuMove, userMove: action })
     setPick(true)
+
     setGame({
       ...game,
-      user: actionUserMove?.beats === gpuMove ? game.user + 1 : game.user,
-      gpu: actionGpuMove?.beats === action ? game.gpu + 1 : game.gpu,
+      user: actionUserMove?.beats.includes(gpuMove) ? game.user + 1 : game.user,
+      gpu: actionGpuMove?.beats.includes(action) ? game.gpu + 1 : game.gpu,
       lastGpuMove: gpuMove,
       lastUserMove: action,
       userMove: '',
       gpuMove: '',
     })
-    setTimeout(() => {
-      setPick(false)
-    }, 575)
   }
 
   useEffect(() => {
@@ -44,6 +42,10 @@ export default function GamePage() {
       playedMatch()
       if (game.user > game.gpu) scoreUpdate(options.winningScore, false)
     }
+
+    if (game.isGameOver) {
+      setPick(false)
+    }
   }, [game.isGameOver])
 
   if (game.isGameOver || pick) {
@@ -54,8 +56,13 @@ export default function GamePage() {
         <h1 className="text-white text-center text-6xl font-bold">
           {!game.isGameOver
             ? game.lastUserMove === game.lastGpuMove
-              ? 'Tur Berabere' : lastUserMove?.beats === game.lastGpuMove ? 'Turu Kazandın' : 'Turu Kaybettin' :
-            game.user > game.gpu ? 'Oyunu Kazandın' : 'Oyunu Kaybettin'}
+              ? 'Tur Berabere'
+              : lastUserMove?.beats.includes(game.lastGpuMove!)
+              ? 'Turu Kazandın'
+              : 'Turu Kaybettin'
+            : game.user > game.gpu
+            ? 'Oyunu Kazandın'
+            : 'Oyunu Kaybettin'}
         </h1>
 
         <div className="w-full flex items-center justify-between gap-4 p-4">
@@ -74,8 +81,19 @@ export default function GamePage() {
             <p>İşlemci Seçimi</p>
           </div>
         </div>
-
+        {!game.isGameOver && pick && (
+          <button
+            aria-label="Devam Et"
+            onClick={() => setPick(false)}
+            className={twMerge(
+              'mt-4 px-4 py-4 text-2xl uppercase tracking-widest bg-white text-black rounded-md font-medium w-full'
+            )}
+          >
+            Devam Et
+          </button>
+        )}
         <button
+          aria-label="Tekrar Oyna"
           className={twMerge(
             'mt-4 px-4 py-4 text-2xl uppercase tracking-widest bg-white text-black rounded-md font-medium w-full invisible pointer-events-none opacity-0 transition-all',
             !pick && 'opacity-100 visible pointer-events-auto'
@@ -86,7 +104,7 @@ export default function GamePage() {
               setUser({ ...user, score: user.score + options.winningScore })
           }}
         >
-          Play Again
+          Tekrar Oyna
         </button>
       </div>
     )

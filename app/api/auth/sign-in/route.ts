@@ -8,7 +8,7 @@ export async function POST(request: NextRequest) {
 
   if (!email || !password) {
     return NextResponse.json(
-      { error: 'Email veya şifre yanlış' },
+      { message: 'Email veya şifre yanlış' },
       { status: 400 }
     )
   }
@@ -17,7 +17,7 @@ export async function POST(request: NextRequest) {
 
   if (!user) {
     return NextResponse.json(
-      { error: "bu mail'e ait bir kullanıcı bulunamadı" },
+      { message: "bu mail'e ait bir kullanıcı bulunamadı" },
       { status: 404 }
     )
   }
@@ -25,7 +25,7 @@ export async function POST(request: NextRequest) {
   const isValid = await bcrypt.compare(password, user.password)
 
   if (!isValid) {
-    return NextResponse.json({ error: 'Şifre yanlış' }, { status: 403 })
+    return NextResponse.json({ message: 'Şifre yanlış' }, { status: 403 })
   }
 
   const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET!, {

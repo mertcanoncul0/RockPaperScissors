@@ -16,6 +16,7 @@ import { EyeClosedIcon, LucideEye } from 'lucide-react'
 import { scoreUpdate } from '@/service/score'
 import { getSecureData } from '@/actions/localstorage'
 import { myToast } from '@/lib/helper'
+import { signIn } from '@/service/auth'
 
 type SignInModalProps = {
   isOpen: boolean
@@ -50,28 +51,25 @@ export default function SignInModal({
   })
 
   const onSubmit = async (data: z.infer<typeof signInSchema>) => {
-    const response = await fetch('/api/auth/sign-in', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      credentials: 'include',
-      body: JSON.stringify(data),
-    })
+    const response = await signIn(data)
 
-    if (response.ok) {
-      const user = await response.json()
-
-      if (Number(user.score) === 0) {
-        user.score = Number(getSecureData('score')) || 0
-        scoreUpdate(Number(user.score), true)
-      }
-
-      setUser(user)
-      setAuthenticated(true)
-      onOpenChange(false)
-      myToast('Giriş Başarılı', 'success', 1300)
+    if (!response.ok) {
+      const error = await response.json()
+      myToast(error.message, 'error', 1300)
+      return
     }
+
+    const user = await response.json()
+
+    if (Number(user.score) === 0) {
+      user.score = Number(getSecureData('score')) || 0
+      scoreUpdate(Number(user.score), true)
+    }
+
+    setUser(user)
+    setAuthenticated(true)
+    onOpenChange(false)
+    myToast('Giriş Başarılı', 'success', 1300)
   }
 
   return (
@@ -97,7 +95,7 @@ export default function SignInModal({
                 size="lg"
                 endContent={
                   <button
-                    className="focus:outline-none "
+                    className="focus:outline-none"
                     type="button"
                     onClick={toggleVisibility}
                     aria-label="toggle password visibility"
@@ -116,7 +114,11 @@ export default function SignInModal({
                 {errors.password?.message}
               </p>
               <ModalFooter className="flex justify-between items-center">
-                <button className="text-base" onClick={() => { }}>
+                <button
+                  aria-label="Kayıt ol"
+                  className="text-base"
+                  onClick={() => {}}
+                >
                   You don&apos;t have an account?{' '}
                   <span
                     className="text-primary-600 cursor-pointer hover:underline"
@@ -128,6 +130,7 @@ export default function SignInModal({
 
                 <div className="flex items-center gap-1">
                   <Button
+                    aria-label="Kapat"
                     color="danger"
                     variant="light"
                     onPress={onClose}
@@ -135,7 +138,12 @@ export default function SignInModal({
                   >
                     Close
                   </Button>
-                  <Button color="primary" type="submit" className="text-base">
+                  <Button
+                    aria-label="Giriş yap"
+                    color="primary"
+                    type="submit"
+                    className="text-base"
+                  >
                     Giriş Yap
                   </Button>
                 </div>

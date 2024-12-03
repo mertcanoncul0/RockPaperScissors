@@ -1,10 +1,10 @@
 export type GameAction = {
-  id: number
-  name: string
-  beats: string
-  losesTo: string
-  src: string
-  alt: string
+  id: number;
+  name: string;
+  beats: string[];
+  losesTo: string[];
+  src: string;
+  alt: string;
 }
 
 export type ActionCircleProps = {

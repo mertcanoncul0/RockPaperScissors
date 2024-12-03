@@ -58,7 +58,6 @@ export default function SignUpModal({
     if (!res.ok) {
       const data = (await res.json()) as { message: string }
       myToast(data.message, 'error', 1300)
-
       return
     }
 
@@ -121,7 +120,7 @@ export default function SignUpModal({
                 {errors.password?.message}
               </p>
               <ModalFooter className="flex items-center justify-between">
-                <button type="button">
+                <button type="button" aria-label="Giriş yap">
                   you have a already account!{' '}
                   <span
                     onClick={handleSignUpChange}
@@ -136,10 +135,16 @@ export default function SignUpModal({
                     variant="light"
                     onPress={onClose}
                     className="text-base"
+                    aria-label="Kapat"
                   >
                     Close
                   </Button>
-                  <Button color="primary" type="submit" className="text-base">
+                  <Button
+                    color="primary"
+                    type="submit"
+                    className="text-base"
+                    aria-label="Kayıt ol"
+                  >
                     Kayıt Ol
                   </Button>
                 </div>

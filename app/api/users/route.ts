@@ -20,10 +20,10 @@ export async function GET(request: NextRequest) {
   })
 
   const usersWithRate = users.map((user) => {
-    if (user.playedMatch > 1) {
+    if (user.playedMatch >= 1) {
       return {
         ...user,
-        wonRate: ((user.wonMatch / user.playedMatch) * 100).toFixed(2),
+        wonRate: ((user.wonMatch / user.playedMatch) * 100).toFixed(2) + '%',
       }
     }
 
